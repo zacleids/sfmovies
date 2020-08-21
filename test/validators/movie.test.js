@@ -26,6 +26,16 @@ describe('movie validator', () => {
       expect(result.error.details[0].type).to.eql('string.max');
     });
 
+    it('fails with an empty string', () => {
+      const payload = {
+        title: ''
+      };
+      const result = Joi.validate(payload, MovieValidator);
+
+      expect(result.error.details[0].path[0]).to.eql('title');
+      expect(result.error.details[0].type).to.eql('any.empty');
+    });
+
   });
 
   describe('release_year', () => {
@@ -50,6 +60,17 @@ describe('movie validator', () => {
 
       expect(result.error.details[0].path[0]).to.eql('release_year');
       expect(result.error.details[0].type).to.eql('number.max');
+    });
+
+    it('fails with an empty string', () => {
+      const payload = {
+        title: 'default title',
+        release_year: ''
+      };
+      const result = Joi.validate(payload, MovieValidator);
+
+      expect(result.error.details[0].path[0]).to.eql('release_year');
+      expect(result.error.details[0].type).to.eql('number.base');
     });
 
   });
